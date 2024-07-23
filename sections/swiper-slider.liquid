@@ -1,0 +1,46 @@
+{% assign collection = collections['solid-grooves'] %}
+
+<div class="swiper-section">
+  {% if section.settings.swiper-section-title %}
+    <h2 class="swiper-title">{{ section.settings.swiper-section-title }}</h2>
+  {% endif %}
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% assign artist_keys = 'pawsa, michael_bibi, anotr, dennis_cruz, afrojack, martin_garrix, nicky_romero' | split: ', ' %}
+      
+      {% for key in artist_keys %}
+        {% assign artist_image = collection.metafields.artist[key] %}
+        {% if artist_image %}
+          <div class="swiper-slide artist-slide">
+            <img class="swiper-image" src="{{ artist_image | file_url }}" alt="{{ key | capitalize }}">
+            <p class="swiper-artist">{{ key | replace: '_', ' ' | capitalize }}</p>
+          </div>
+        {% else %}
+          <div class="swiper-slide">
+            <p>{{ key | capitalize }} image not found.</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{{ section.settings.custom_liquid }}
+{% schema %}
+{
+  "name": "Swiper Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "swiper-section-title",
+      "label": "Section title",
+      "default": "Meet our artists"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Swiper Slider"
+    }
+  ]
+}
+{% endschema %}
